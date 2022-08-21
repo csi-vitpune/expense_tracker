@@ -1,6 +1,8 @@
+import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/widgets/poppins_text.dart';
 import 'package:expense_tracker/widgets/roboto_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CompleteKycWidget extends StatelessWidget {
   const CompleteKycWidget({Key? key}) : super(key: key);
@@ -29,7 +31,7 @@ class CompleteKycWidget extends StatelessWidget {
                   ),
                   PoppinsText(
                     text:
-                    "Lorem Ipsum is simply dummy text \nof the printing and typesetting\nindustry. Lorem",
+                        "Lorem Ipsum is simply dummy text \nof the printing and typesetting\nindustry. Lorem",
                     fontColor: const Color(0xFF000000),
                     fontSize: 10,
                     fontWeight: FontWeight.w400,
@@ -58,7 +60,10 @@ class CompleteKycWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Provider.of<ExpensesProvider>(context, listen: false)
+                      .completeKyc();
+                },
               ),
             ),
           ),

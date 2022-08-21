@@ -2,8 +2,11 @@ import 'package:expense_tracker/widgets/payment_method_widget.dart';
 import 'package:expense_tracker/widgets/poppins_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../constant.dart';
+import '../providers/expenses_provider.dart';
+import '../utils/constant.dart';
+import '../utils/models.dart';
 
 class AddTransaction extends StatefulWidget {
   const AddTransaction({Key? key}) : super(key: key);
@@ -13,7 +16,14 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
-  TextEditingController dateController = new TextEditingController();
+  DateTime date = DateTime.now();
+  TextEditingController amountController = new TextEditingController();
+  PaymentMethod paymentMethod = PaymentMethod.Upi;
+  TextEditingController noteController = new TextEditingController();
+
+  void setPaymentMethodCallBack(PaymentMethod method) {
+    paymentMethod = method;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +68,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 height: 24,
               ),
               TextField(
+                controller: amountController,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -88,12 +99,9 @@ class _AddTransactionState extends State<AddTransaction> {
                 height: 8,
               ),
               TextField(
-                controller: dateController,
-                //editing controller of this TextField
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
-
                 readOnly: true,
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -108,14 +116,14 @@ class _AddTransactionState extends State<AddTransaction> {
                         DateFormat('yyyy-MM-dd').format(pickedDate);
 
                     setState(() {
-                      dateController.text = formattedDate;
+                      date = pickedDate;
                     });
                   } else {
                     print("Date is not selected");
                   }
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               PoppinsText(
@@ -129,17 +137,26 @@ class _AddTransactionState extends State<AddTransaction> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   PaymentMethodWidget(
-                      method: PaymentMethod.Upi, methodName: "UPI"),
+                    method: PaymentMethod.Upi,
+                    methodName: "UPI",
+                    setPaymentMethod: setPaymentMethodCallBack,
+                  ),
                   SizedBox(
                     width: 50,
                   ),
                   PaymentMethodWidget(
-                      method: PaymentMethod.Card, methodName: "Card"),
+                    method: PaymentMethod.Card,
+                    methodName: "Card",
+                    setPaymentMethod: setPaymentMethodCallBack,
+                  ),
                   SizedBox(
                     width: 50,
                   ),
                   PaymentMethodWidget(
-                      method: PaymentMethod.Cash, methodName: "Cash")
+                    method: PaymentMethod.Cash,
+                    methodName: "Cash",
+                    setPaymentMethod: setPaymentMethodCallBack,
+                  )
                 ],
               ),
               SizedBox(
@@ -153,6 +170,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 height: 8,
               ),
               TextField(
+                controller: noteController,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -189,6 +207,17 @@ class _AddTransactionState extends State<AddTransaction> {
                     ),
                   ),
                 ),
+                onTap: () {
+                  DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+                  Spend spend = new Spend(
+                      paymentMode: paymentMethod,
+                      amountSpent: double.parse(amountController.text),
+                      date: date,
+                      note: noteController.text);
+                  Provider.of<ExpensesProvider>(context, listen: false)
+                      .addExpenses(spend);
+                  Navigator.pop(context);
+                },
               )
             ],
           ),

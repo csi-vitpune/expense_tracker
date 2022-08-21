@@ -1,16 +1,19 @@
+import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/screens/add_transaction.dart';
+import 'package:expense_tracker/utils/constant.dart';
 import 'package:expense_tracker/widgets/add_expense.dart';
 import 'package:expense_tracker/widgets/complete_kyc_widget.dart';
+import 'package:expense_tracker/widgets/expense_graph_widget.dart';
 import 'package:expense_tracker/widgets/expense_highlight_widget.dart';
 import 'package:expense_tracker/widgets/poppins_text.dart';
 import 'package:expense_tracker/widgets/roboto_text.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseTrackWidget extends StatelessWidget {
   ExpenseTrackWidget({Key? key}) : super(key: key);
-
-  bool kycCompleted = true;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,8 @@ class ExpenseTrackWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16, top: 8),
               child: RobotoText(
-                text: "₹0",
+                text:
+                    "₹${Provider.of<ExpensesProvider>(context, listen: true).totalSpend.toInt().toString()}",
                 fontSize: 32,
                 fontColor: const Color(0xFFFFFFFF),
                 fontWeight: FontWeight.w600,
@@ -57,7 +61,7 @@ class ExpenseTrackWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   RobotoText(
-                    text: "₹18,000",
+                    text: "₹${MONTHLY_BUDGET.toInt().toString()}",
                     fontSize: 12,
                     fontColor: const Color(0xFFADB4E2),
                   ),
@@ -70,18 +74,20 @@ class ExpenseTrackWidget extends StatelessWidget {
                 ],
               ),
             ),
+            ExpenseGraphWidget(),
             Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: const EdgeInsets.only(top: 144),
+                padding: const EdgeInsets.only(top: 10),
                 child: PoppinsText(
-                  text: "Jan month's data",
+                  text:
+                      "${MONTHS[DateTime.now().month].substring(0, 3)} month's data",
                   fontColor: const Color(0xFFADB4E2),
                   fontSize: 12,
                 ),
               ),
             ),
-            kycCompleted
+            context.watch<ExpensesProvider>().isKycComplete
                 ? const AddExpense()
                 : const CompleteKycWidget()
           ],

@@ -11,8 +11,7 @@ class AddExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-      const EdgeInsets.only(top: 12, left: 15, right: 15),
+      padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Row(
         children: [
           Expanded(
@@ -69,17 +68,15 @@ class AddExpense extends StatelessWidget {
                           height: 17,
                           width: 48,
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(32),
-                            color: Color(0xFFE13B30)
-                                .withOpacity(0.26),
+                            borderRadius: BorderRadius.circular(32),
+                            color: Color(0xFFE13B30).withOpacity(0.26),
                           ),
                           child: Center(
                               child: PoppinsText(
-                                text: "Low bal",
-                                fontColor: Color(0xFFE13B30),
-                                fontSize: 10,
-                              )),
+                            text: "Low bal",
+                            fontColor: Color(0xFFE13B30),
+                            fontSize: 10,
+                          )),
                         )
                       ],
                     ),
@@ -87,20 +84,20 @@ class AddExpense extends StatelessWidget {
                       height: 24,
                     ),
                     Center(
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xff303F9F)),
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => AddTransaction()),
-                              );
-                            },
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddTransaction()),
+                          );
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xff303F9F)),
+                          child: Center(
                             child: PoppinsText(
                               text: 'Add',
                               fontSize: 16,
