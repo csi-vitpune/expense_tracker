@@ -1,9 +1,11 @@
 import 'package:expense_tracker/widgets/expense_track_widget.dart';
+import 'package:expense_tracker/widgets/explore_section.dart';
 import 'package:expense_tracker/widgets/home_page_title.dart';
 import 'package:expense_tracker/widgets/home_screen_appbar.dart';
-import 'package:expense_tracker/widgets/poppins_text.dart';
+import 'package:expense_tracker/widgets/task_section.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,10 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const HomeScreenAppBar(),
               const HomePageTitle(),
-              ExpenseTrackWidget()
+              ExpenseTrackWidget(),
+              const ExploreSection(),
+              const TaskSection(),
             ],
           ),
         ),
+        bottomNavigationBar: BottomNavBar(),
       ),
     );
   }

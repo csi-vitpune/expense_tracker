@@ -33,6 +33,7 @@ class ExpensesProvider extends ChangeNotifier {
 
   void addExpenses(Spend spend) {
     _expenses.add(spend);
+    _totalSpend = _totalSpend + spend.amountSpent;
     notifyListeners();
   }
 }
