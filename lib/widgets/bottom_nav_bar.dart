@@ -6,7 +6,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GNav(
+    return const GNav(
       tabBackgroundColor: Color(0xffE8EAF6),
       padding: EdgeInsets.all(8),
       tabMargin: EdgeInsets.all(12),

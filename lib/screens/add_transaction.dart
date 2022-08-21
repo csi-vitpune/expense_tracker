@@ -18,6 +18,7 @@ class AddTransaction extends StatefulWidget {
 class _AddTransactionState extends State<AddTransaction> {
   DateTime date = DateTime.now();
   TextEditingController amountController = new TextEditingController();
+  TextEditingController dateController = new TextEditingController();
   PaymentMethod paymentMethod = PaymentMethod.Upi;
   TextEditingController noteController = new TextEditingController();
 
@@ -99,6 +100,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 height: 8,
               ),
               TextField(
+                controller: dateController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
@@ -117,6 +119,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
                     setState(() {
                       date = pickedDate;
+                      dateController.text = formattedDate;
                     });
                   } else {
                     print("Date is not selected");
